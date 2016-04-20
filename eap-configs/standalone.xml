@@ -24,7 +24,14 @@
         <extension module="org.jboss.as.web"/>
         <extension module="org.jboss.as.webservices"/>
         <extension module="org.jboss.as.weld"/>
+        <extension module="org.wildfly.extension.camel"/>
+        <extension module="org.switchyard"/>
     </extensions>
+    <system-properties>
+       <property name="hawtio.authenticationEnabled" value="true"/>
+       <property name="hawtio.offline" value="true"/>
+       <property name="hawtio.realm" value="hawtio-domain"/>
+    </system-properties>
     <management>
         <security-realms>
             <security-realm name="ManagementRealm">
@@ -124,6 +131,12 @@
             <formatter name="COLOR-PATTERN">
                 <pattern-formatter pattern="%K{level}%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n"/>
             </formatter>
+            <logger category="org.switchyard">
+                <level name="INFO"/>
+            </logger>
+            <logger category="org.apache.deltaspike.core.api.provider.BeanManagerProvider">
+                <level name="ERROR"/>
+            </logger>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:datasources:1.2">
             <datasources>
@@ -276,6 +289,18 @@
                         <policy-module code="Delegating" flag="required"/>
                     </authorization>
                 </security-domain>
+                <security-domain name="hawtio-domain" cache-type="default">
+                    <authentication>
+                        <login-module code="RealmDirect" flag="required">
+                            <module-option name="realm" value="ManagementRealm"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
+                <security-domain name="bpel-console" cache-type="default">
+                    <authentication>
+                        <login-module code="UsersRoles" flag="required"/>
+                    </authentication>
+                </security-domain>
             </security-domains>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:threads:1.1"/>
@@ -307,6 +332,75 @@
             <client-config name="Standard-Client-Config"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:weld:1.0"/>
+        <subsystem xmlns="urn:jboss:domain:camel:1.0">
+          <!-- You can add static camelContext definitions here. -->
+          <!--
+             <camelContext id="system-context-1">
+               <![CDATA[
+               <route>
+                 <from uri="direct:start"/>
+                 <transform>
+                   <simple>Hello #{body}</simple>
+                 </transform>
+               </route>
+               ]]>
+             </camelContext>
+          -->
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:switchyard:1.0">
+           <modules>
+              <module identifier="org.switchyard.component.bean" implClass="org.switchyard.component.bean.deploy.BeanComponent"/>
+              <module identifier="org.switchyard.component.soap" implClass="org.switchyard.component.soap.deploy.SOAPComponent">
+                 <properties>
+                    <socketAddr>:18001</socketAddr>
+                 </properties>
+              </module>
+              <module identifier="org.switchyard.component.camel" implClass="org.switchyard.component.camel.deploy.CamelComponent">
+                 <properties>
+                    <socketAddr>:18001</socketAddr>
+                 </properties>
+              </module>
+              <module identifier="org.switchyard.component.camel.atom" implClass="org.switchyard.component.camel.atom.deploy.CamelAtomComponent"/>
+              <module identifier="org.switchyard.component.camel.core" implClass="org.switchyard.component.camel.core.deploy.CamelCoreComponent"/>
+              <module identifier="org.switchyard.component.camel.cxf" implClass="org.switchyard.component.camel.cxf.deploy.CamelCxfComponent"/>
+              <module identifier="org.switchyard.component.camel.file" implClass="org.switchyard.component.camel.file.deploy.CamelFileComponent"/>
+              <module identifier="org.switchyard.component.camel.ftp" implClass="org.switchyard.component.camel.ftp.deploy.CamelFtpComponent"/>
+              <module identifier="org.switchyard.component.camel.jms" implClass="org.switchyard.component.camel.jms.deploy.CamelJmsComponent"/>
+              <module identifier="org.switchyard.component.camel.jpa" implClass="org.switchyard.component.camel.jpa.deploy.CamelJpaComponent"/>
+              <module identifier="org.switchyard.component.camel.mail" implClass="org.switchyard.component.camel.mail.deploy.CamelMailComponent"/>
+              <module identifier="org.switchyard.component.camel.mqtt" implClass="org.switchyard.component.camel.mqtt.deploy.CamelMqttComponent"/>
+              <module identifier="org.switchyard.component.camel.netty" implClass="org.switchyard.component.camel.netty.deploy.CamelNettyComponent"/>
+              <module identifier="org.switchyard.component.camel.quartz" implClass="org.switchyard.component.camel.quartz.deploy.CamelQuartzComponent"/>
+              <module identifier="org.switchyard.component.camel.rss" implClass="org.switchyard.component.camel.rss.deploy.CamelRSSComponent"/>
+              <module identifier="org.switchyard.component.camel.sql" implClass="org.switchyard.component.camel.sql.deploy.CamelSqlComponent"/>
+              <module identifier="org.switchyard.component.bpel" implClass="org.switchyard.component.bpel.deploy.BPELComponent"/>
+              <module identifier="org.switchyard.component.http" implClass="org.switchyard.component.http.deploy.HttpComponent"/>
+              <module identifier="org.switchyard.component.jca" implClass="org.switchyard.component.jca.deploy.JCAComponent"/>
+              <module identifier="org.switchyard.component.sca" implClass="org.switchyard.component.sca.deploy.SCAComponent">
+                 <properties>
+                    <cache-name>switchyard</cache-name>
+                 </properties>
+              </module>
+              <module identifier="org.switchyard.component.resteasy" implClass="org.switchyard.component.resteasy.deploy.RESTEasyComponent"/>
+
+               <!-- Uncomment this to activate the camel-sap component
+               <module identifier="org.switchyard.component.camel.sap"
+                       implClass="org.switchyard.component.camel.sap.deploy.CamelSapComponent"/>
+               -->
+           </modules>
+           <extensions>
+              <extension identifier="org.apache.camel.component.bindy"/>
+              <extension identifier="org.apache.camel.component.dozer"/>
+              <extension identifier="org.apache.camel.component.hl7"/>
+              <extension identifier="org.apache.camel.component.jackson"/>
+              <extension identifier="org.apache.camel.component.jaxb"/>
+              <extension identifier="org.apache.camel.component.mina2"/>
+              <extension identifier="org.apache.camel.component.mvel"/>
+              <extension identifier="org.apache.camel.component.ognl"/>
+              <extension identifier="org.apache.camel.component.saxon"/>
+              <extension identifier="org.apache.camel.component.soap"/>
+           </extensions>
+        </subsystem>
     </profile>
     <interfaces>
         <interface name="management">
@@ -319,7 +413,7 @@
         <interface name="unsecure">
             <!--
               ~  Used for IIOP sockets in the standard configuration.
-              ~                  To secure JacORB you need to setup SSL 
+              ~                  To secure JacORB you need to setup SSL
               -->
             <inet-address value="${jboss.bind.address.unsecure:127.0.0.1}"/>
         </interface>
