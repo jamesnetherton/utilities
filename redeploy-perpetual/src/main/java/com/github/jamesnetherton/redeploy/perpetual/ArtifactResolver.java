@@ -59,7 +59,7 @@ public class ArtifactResolver {
         RemoteRepository jbossReleases = new RemoteRepository.Builder("jboss-releases", "default", "http://repository.jboss.org/nexus/content/groups/public").build();
         RemoteRepository redhatInternal = new RemoteRepository.Builder("brew", "default", "http://download.eng.bos.redhat.com/brewroot/repos/jb-eap-6.4-rhel-6-build/latest/maven").build();
         RemoteRepository jbossThirdParty = new RemoteRepository.Builder("jboss-thirdarty", "default", "https://repository.jboss.org/nexus/content/repositories/thirdparty-releases").build();
-        RemoteRepository redhatGa = new RemoteRepository.Builder("redhat-ga", "default", "http://maven.repository.redhat.com/techpreview/all").build();
+        RemoteRepository redhatGa = new RemoteRepository.Builder("redhat-ga", "default", "https://repository.jboss.org/nexus/content/groups/ea").build();
 
         ArrayList<RemoteRepository> remoteRepositories = new ArrayList<RemoteRepository>(Arrays.asList(mavenCentral, jbossReleases, redhatInternal, jbossThirdParty, redhatGa));
         collectRequest.setRepositories(remoteRepositories);

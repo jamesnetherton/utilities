@@ -43,6 +43,9 @@ public class Main {
     @Option(name = "--run-installer", usage = "Whether or not to run the installer application")
     private String runInstaller = "true";
 
+    @Option(name = "--provision-only", usage = "Whether or not to just provision the server but not start it")
+    private String provisionOnly = "false";
+
     @Argument
     private List<String> arguments = new ArrayList<String>();
 
@@ -128,6 +131,12 @@ public class Main {
             if (!standaloneScript.canExecute()) {
                 Utils.consoleOutput("Making " + standaloneScriptName + " executable");
                 standaloneScript.setExecutable(true);
+            }
+
+            Utils.consoleOutput("Server provisioning complete");
+
+            if (Boolean.parseBoolean(provisionOnly)) {
+                System.exit(0);
             }
 
             File heapDumpFile = heapDumpDirectory.toPath().resolve("heapdump-" + Utils.getUniqueFileSuffix() + ".hprof").toFile();
