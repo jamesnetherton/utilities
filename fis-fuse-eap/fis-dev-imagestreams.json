@@ -1,0 +1,108 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "fis-image-streams",
+        "annotations": {
+            "description": "ImageStream definitions for JBoss Fuse Integration Services."
+        }
+    },
+    "items": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "fis-java-openshift",
+                "annotations": {
+                    "openshift.io/image.insecureRepository": "true"
+                }
+            },
+            "spec": {
+                "dockerImageRepository": "docker-registry.usersys.redhat.com/fabric8/fis-java-openshift",
+                "tags": [
+                    {
+                        "name": "1.0",
+                        "annotations": {
+                            "description": "JBoss Fuse Integration Services 1.0 Java S2I images.",
+                            "iconClass": "icon-jboss",
+                            "tags": "builder,jboss-fuse,java,xpaas",
+                            "supports":"jboss-fuse:6.2.1,java:8,xpaas:1.2",
+                            "version": "1.0"
+                        }
+                    },
+                    {
+                        "name": "2.0",
+                        "annotations": {
+                            "description": "JBoss Fuse Integration Services 2.0 Java S2I images.",
+                            "iconClass": "icon-jboss",
+                            "tags": "builder,jboss-fuse,java,xpaas",
+                            "supports":"jboss-fuse:6.3.0,java:8,xpaas:1.2",
+                            "version": "2.0"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "fis-karaf-openshift",
+                "annotations": {
+                    "openshift.io/image.insecureRepository": "true"
+                }
+            },
+            "spec": {
+                "dockerImageRepository": "docker-registry.usersys.redhat.com/fabric8/fis-karaf-openshift",
+                "tags": [
+                    {
+                        "name": "1.0",
+                        "annotations": {
+                            "description": "JBoss Fuse Integration Services 1.0 Karaf S2I images.",
+                            "iconClass": "icon-jboss",
+                            "tags": "builder,jboss-fuse,java,karaf,xpaas",
+                            "supports":"jboss-fuse:6.2.1,java:8,xpaas:1.2",
+                            "version": "1.0"
+                        }
+                    },
+                    {
+                        "name": "2.0",
+                        "annotations": {
+                            "description": "JBoss Fuse Integration Services 2.0 Karaf S2I images.",
+                            "iconClass": "icon-jboss",
+                            "tags": "builder,jboss-fuse,java,karaf,xpaas",
+                            "supports":"jboss-fuse:6.3.0,java:8,xpaas:1.2",
+                            "version": "2.0"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "fis-eap-openshift",
+                "annotations": {
+                    "openshift.io/image.insecureRepository": "true"
+                }
+            },
+            "spec": {
+                "dockerImageRepository": "docker-registry.engineering.redhat.com/jboss-fuse/fis-eap-openshift",
+                "tags": [
+                    {
+                        "name": "1.0",
+                        "annotations": {
+                            "description": "JBoss Fuse Integration Services 2.0 EAP S2I images.",
+                            "iconClass": "icon-jboss",
+                            "tags": "builder,jboss-fuse,java,eap,xpaas",
+                            "supports":"jboss-fuse:7.0.0,java:8,xpaas:1.2",
+                            "version": "1.0"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
+
