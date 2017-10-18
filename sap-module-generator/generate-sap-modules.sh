@@ -1,11 +1,14 @@
 # Assemble SAP modules
-SAP_TMP_DIR=$(mktemp -d)
+SAP_TMP_DIR=/tmp/sap
 MODULE_CAMEL_EXTRAS=${SAP_TMP_DIR}/modules/org/wildfly/camel/extras/main
 MODULE_SAP=${SAP_TMP_DIR}/modules/com/sap/conn/jco/main
 MODULE_SAP_LIB=${MODULE_SAP}/lib/linux-$(uname -i)
 SAP_JCO_VERSION=3.0.11
 SAP_IDOC_VERSION=3.0.10
 
+if [[ -d ${SAP_TMP_DIR} ]]; then
+  exit 0
+fi
 
 if [[ -z "${NEXUS_USER}" ]] || [[ -z "${NEXUS_PASSWORD}" ]]; then
   echo "NEXUS_USER and NEXUS_PASSWORD variables are not set"
