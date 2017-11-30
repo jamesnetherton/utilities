@@ -6,6 +6,13 @@ function cleanUp() {
     oc delete all -l "application=${APP}"
 }
 
+oc login -u developer -p developer https://$(minishift ip):8443
+if ! oc status | grep "192." > /dev/null
+then
+    echo "oc is not pointing at local server"
+    exit 1
+fi
+
 echo "====================> Deploying AMQ"
 oc new-app amq63-basic -p IMAGE_STREAM_NAMESPACE=jboss-fuse -p MQ_USERNAME=admin123 -p MQ_PASSWORD=admin123
 
