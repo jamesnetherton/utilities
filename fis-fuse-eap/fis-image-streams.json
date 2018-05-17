@@ -1,0 +1,62 @@
+{
+    "kind": "List",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "fis-image-streams",
+        "annotations": {
+            "description": "ImageStream definitions for JBoss Fuse Integration Services."
+        }
+    },
+    "items": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "fis-java-openshift",
+                "annotations": {
+                    "openshift.io/image.insecureRepository": "true"
+                }
+            },
+            "spec": {
+                "dockerImageRepository": "192.168.1.245:5000/jboss-fuse-6/fis-java-openshift",                
+                "tags": [
+                    {
+                        "name": "2.0",
+                        "annotations": {
+                            "description": "JBoss Fuse Integration Services 2.0 Java S2I images.",
+                            "iconClass": "icon-jboss",
+                            "tags": "builder,jboss-fuse,java,xpaas",
+                            "supports":"jboss-fuse:6.3.0,java:8,xpaas:1.2",
+                            "version": "2.0"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "fis-karaf-openshift",
+                "annotations": {
+                    "openshift.io/image.insecureRepository": "true"
+                }
+            },
+            "spec": {
+                "dockerImageRepository": "192.168.1.245:5000/jboss-fuse-6/fis-karaf-openshift:1.0",                
+                "tags": [
+                    {
+                        "name": "2.0",
+                        "annotations": {
+                            "description": "JBoss Fuse Integration Services 2.0 Karaf S2I images.",
+                            "iconClass": "icon-jboss",
+                            "tags": "builder,jboss-fuse,java,karaf,xpaas",
+                            "supports":"jboss-fuse:6.3.0,java:8,xpaas:1.2",
+                            "version": "2.0"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
