@@ -16,7 +16,7 @@ most of my time was wasted trying to get a real containerized FTP server running
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-sftp</artifactId>
-      <version>2.6.0</version>
+      <version>2.10.0</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
